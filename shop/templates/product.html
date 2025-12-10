@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="row g-0">
+            <!-- تصویر محصول -->
+            <div class="col-md-5 text-center p-3">
+                <img src="{{ product.picture.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+            </div>
+
+            <!-- جزئیات محصول -->
+            <div class="col-md-7">
+                <div class="card-body">
+                    <h3 class="card-title mb-3">{{ product.name }}</h3>
+
+                    <p class="card-text mb-4">{{ product.descriptions }}</p>
+
+                    {% if product.is_sale %}
+                        <p class="card-text fs-5">
+                            <span class="fw-bold">قیمت:</span>
+                            <span class="text-muted text-decoration-line-through ms-2">{{ product.price|intcomma }} تومان</span>
+                            <span class="fw-bold text-danger ms-2">{{ product.sale_price|intcomma }} تومان</span>
+                        </p>
+                    {% else %}
+                        <p class="card-text fs-5">
+                            <span class="fw-bold">قیمت:</span>
+                            {{ product.price|intcomma }} تومان
+                        </p>
+                    {% endif %}
+
+                    <select class="form-select" id='cart-qty'>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+                    
+                    <div class="mt-4">
+                        <a href="{% url 'main-page' %}" class="btn btn-outline-danger me-2">برگشت به خانه</a>
+                        {% comment %} <a href="#" class="btn btn-danger">افزودن به سبد خرید</a> {% endcomment %}
+                        <button href="#" class="btn btn-danger" type='button' value='{{ product.pk }}' id='add-cart' >افزودن به سبد خرید</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).on('click', '#add-cart', function(e){
+    e.preventDefault();
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart-add" %}',
+        data: {
+            product_id: $('#add-cart').val(),
+            product_qty: $('#cart-qty').val(),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action:'post'
+        },
+        
+        success: function(json){
+            {% comment %} console.log(json) {% endcomment %}
+            document.getElementById('cart_quantity').textContent = json.qty 
+
+        },
+
+        error: function(xhr, errmsg, err){
+        }
+    })
+})
+</script>
+
+{% endblock %}

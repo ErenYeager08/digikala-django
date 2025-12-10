@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Header -->
+<header class="bg-danger py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">صفحه ثبت نام</h1>
+            <p class="lead fw-normal text-white-50 mb-0">حساب کاربری خود را بسازید</p>
+        </div>
+    </div>
+</header>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h4 class="card-title text-center mb-4">ثبت نام</h4>
+                    <form method="POST" action="{% url 'signup-page' %}">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            <div class="mb-3">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% if field.errors %}
+                                    <div class="text-danger small mt-1">
+                                        {{ field.errors }}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-danger w-100">ثبت نام</button>
+                    </form>
+                    <p class="text-center mt-3">
+                        قبلاً ثبت نام کرده‌اید؟ 
+                        <a href="{% url 'login-page' %}">وارد شوید</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

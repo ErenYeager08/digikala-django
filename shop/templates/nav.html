@@ -1,0 +1,69 @@
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm mb-4">
+    <div class="container px-4 px-lg-5">
+        <a class="navbar-brand fw-bold" href="{% url 'main-page' %}">دیجی‌هوم</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'main-page' %}active{% endif %}" 
+                       aria-current="page" href="{% url 'main-page' %}">خانه</a>
+                </li>
+
+                <!-- Categories Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         دسته بندی ها
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+                        {% for cat in categories %}
+                            <li><a class="dropdown-item" href="{% url "category-page" cat.name %}">{{ cat.name }}</a></li>
+                        {% empty %}
+                            <li><span class="dropdown-item text-muted">دسته‌ای موجود نیست</span></li>
+                        {% endfor %}
+                    </ul>
+                </li> 
+
+                <!-- Shop Dropdown -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="shopDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        فروشگاه
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="shopDropdown">
+                        <li><a class="dropdown-item" href="{% url "main-page" %}">تمام محصولات</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">محصولات محبوب</a></li>
+                        <li><a class="dropdown-item" href="#">محصولات جدید</a></li>
+                    </ul>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'logout-page' %}">خارج شدن</a></li>
+                {% else %}
+                    <li class="nav-item"><a class="nav-link" href="{% url 'login-page' %}">وارد شدن</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'signup-page' %}">ثبت نام</a></li>
+                {% endif %}
+
+                <li class="nav-item"><a class="nav-link" href="{% url 'about-page' %}">درباره ما</a></li>
+            </ul>
+
+            <!-- Cart Button -->
+            <form class="d-flex">
+                <a href='{% url "cart-summary" %}' class="btn btn-outline-dark position-relative">
+                    <i class="bi-cart-fill me-1"></i> سبد خرید
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" id='cart_quantity' >
+                        {{ cart|length}}
+                        <span class="visually-hidden">محصولات در سبد</span>
+                    </span>
+                </a>
+                {% comment %} <button class="btn btn-outline-dark position-relative" type="submit">
+                </button> {% endcomment %}
+            </form>
+        </div>
+    </div>
+</nav>

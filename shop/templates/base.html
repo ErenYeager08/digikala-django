@@ -1,0 +1,64 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Digi     Home</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <style>
+        .bg-danger-dark { background-color: #ff0000; }
+        
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
+
+        .custom-dropdown {
+            max-height: 190px;
+            overflow-y: auto;
+        }
+
+        .custom-dropdown::-webkit-scrollbar { width: 6px; }
+        .custom-dropdown::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    {% include "nav.html" %}
+
+    <main class="flex-fill">
+        {% if messages %}
+            {% for i in messages %}
+                <div class="alert alert-{{ i.tags|default:'warning' }} alert-dismissible fade show" role="alert">
+                    {{ i }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="py-5 bg-danger mt-auto">
+        <div class="container">
+            <p class="m-0 text-center text-white">ساخته شده با &hearts; و جنگو!</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS (اختیاری) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

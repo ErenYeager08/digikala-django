@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+<!-- Header -->
+<header class="bg-danger py-5">
+    <div class="container px-4 px-lg-5 my-5">
+        <div class="text-center text-white">
+            <h1 class="display-4 fw-bolder">سبد خرید شما</h1>
+            <p class="lead fw-normal text-white-50 mb-0">هرچی بخوای بخری اول میاد اینجا</p>
+        </div>
+    </div>
+</header>
+{% if cart_products %}  
+    {% for product in cart_products %}
+        <div class="container my-5">
+            <div class="card shadow-sm">
+                <div class="row g-0">
+                    <!-- تصویر محصول -->
+                    <div class="col-md-5 text-center p-3">
+                        <img src="{{ product.picture.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+                    </div>
+
+                    <!-- جزئیات محصول -->
+                    <div class="col-md-7">
+                        <div class="card-body">
+                            <h3 class="card-title mb-3">{{ product.name }}</h3>
+
+                            <p class="card-text mb-4">{{ product.descriptions }}</p>
+
+                            {% if product.is_sale %}
+                                <p class="card-text fs-5">
+                                    <span class="fw-bold">قیمت:</span>
+                                    <span class="text-muted text-decoration-line-through ms-2">{{ product.price|intcomma }} تومان</span>
+                                    <span class="fw-bold text-danger ms-2">{{ product.sale_price|intcomma }} تومان</span>
+                                </p>
+                            {% else %}
+                                <p class="card-text fs-5">
+                                    <span class="fw-bold">قیمت:</span>
+                                    {{ product.price|intcomma }} تومان
+                                </p>
+                            {% endif %}
+
+                            <div class="mt-4">
+                                <a href="{% url 'main-page' %}" class="btn btn-outline-danger me-2">برگشت به خانه</a>
+                                {% comment %} <button href="#" class="btn btn-danger" type='button' value='{{ product.pk }}' id='add-cart' >افزودن به سبد خرید</button> {% endcomment %}
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+{% else %}
+<div class="container my-5 text-center" dir="rtl">
+    <i class="bi bi-cart3 fs-1 text-danger mb-3"></i>
+    <h3 class="fw-bold mb-2">سبد خرید خالی است</h3>
+    <p class="text-muted">محصولی برای نمایش وجود ندارد.</p>
+</div>
+{% endif %}
+
+
+{% endblock %}

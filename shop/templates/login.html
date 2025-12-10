@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<!-- Header -->
+<header class="bg-danger py-5 mb-5">
+    <div class="container px-4 px-lg-5 text-center text-white">
+        <h1 class="display-4 fw-bolder">صفحه ورود</h1>
+        <p class="lead fw-normal text-white-50 mb-0">وارد حساب کاربری خود شوید</p>
+    </div>
+</header>
+
+<!-- Login Form -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-center mb-4">ورود به حساب</h5>
+                    <form method="POST" action="{% url 'login-page' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">نام کاربری</label>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="نام کاربری خود را وارد کنید" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">رمز عبور</label>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="رمز عبور خود را وارد کنید" required>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100">ورود</button>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p>حساب ندارید؟ <a href="{% url 'signup-page' %}">ثبت نام کنید</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
